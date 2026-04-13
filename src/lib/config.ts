@@ -17,5 +17,8 @@ export function getCcfavDbPath(): string {
 }
 
 export function projectPathToSlug(projectPath: string): string {
-  return projectPath.replace(/[/.]/g, '-');
+  // Strip git worktree suffix (.worktrees/<branch>) so we resolve to the main project
+  const worktreeMatch = projectPath.match(/^(.*?)\/.worktrees\/.+$/);
+  const resolved = worktreeMatch ? worktreeMatch[1] : projectPath;
+  return resolved.replace(/[/.]/g, '-');
 }
