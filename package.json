@@ -13,12 +13,13 @@
     "test": "vitest run",
     "test:watch": "vitest"
   },
+  "files": ["dist/"],
   "keywords": ["claude-code", "cli", "bookmarks", "favourites", "developer-tools"],
   "license": "MIT",
   "engines": { "node": ">=18" },
   "dependencies": {
     "@inquirer/prompts": "^7.0.0",
-    "better-sqlite3": "^9.4.3",
+    "better-sqlite3": "^12.9.0",
     "commander": "^12.0.0"
   },
   "devDependencies": {
