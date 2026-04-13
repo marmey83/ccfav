@@ -23,5 +23,7 @@ describe('config', () => {
   it('converts project path to slug', () => {
     expect(projectPathToSlug('/Users/martina/Projects/nourli')).toBe('-Users-martina-Projects-nourli');
     expect(projectPathToSlug('/home/user/my-project')).toBe('-home-user-my-project');
+    // dots in username or directory names are also replaced (matches Claude Code's behaviour)
+    expect(projectPathToSlug('/Users/martina.meyer/Projects/nourli')).toBe('-Users-martina-meyer-Projects-nourli');
   });
 });

@@ -17,5 +17,5 @@ export function getCcfavDbPath(): string {
 }
 
 export function projectPathToSlug(projectPath: string): string {
-  return projectPath.replace(/\//g, '-');
+  return projectPath.replace(/[/.]/g, '-');
 }
