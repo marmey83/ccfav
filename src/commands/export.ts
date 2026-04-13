@@ -43,8 +43,13 @@ export async function exportCommand(options: ExportOptions): Promise<void> {
   const markdown = toMarkdown(favourites);
 
   if (options.output) {
-    writeFileSync(options.output, markdown, 'utf-8');
-    console.log(`Exported ${favourites.length} favourite(s) to ${options.output}`);
+    try {
+      writeFileSync(options.output, markdown, 'utf-8');
+      console.log(`Exported ${favourites.length} favourite(s) to ${options.output}`);
+    } catch (err) {
+      console.error(`Failed to write to ${options.output}: ${(err as Error).message}`);
+      process.exit(1);
+    }
   } else {
     process.stdout.write(markdown);
   }

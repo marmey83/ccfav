@@ -4,8 +4,13 @@ import { createDb, getFavouriteById } from '../lib/db.js';
 import { formatFavDetail } from '../lib/format.js';
 
 export async function showCommand(id: string): Promise<void> {
+  const numId = parseInt(id, 10);
+  if (isNaN(numId)) {
+    console.error(`Invalid ID: "${id}" — must be a number`);
+    process.exit(1);
+  }
   const db = createDb(getCcfavDbPath());
-  const fav = getFavouriteById(db, parseInt(id, 10));
+  const fav = getFavouriteById(db, numId);
 
   if (!fav) {
     console.error(`Favourite #${id} not found`);

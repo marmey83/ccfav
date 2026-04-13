@@ -58,8 +58,9 @@ export function findCurrentTranscript(currentDir: string, claudeProjectsDir: str
 
   if (files.length === 0) return null;
 
-  files.sort((a, b) => statSync(b).mtimeMs - statSync(a).mtimeMs);
-  return files[0];
+  const filesWithMtime = files.map(f => ({ path: f, mtime: statSync(f).mtimeMs }));
+  filesWithMtime.sort((a, b) => b.mtime - a.mtime);
+  return filesWithMtime[0]?.path ?? null;
 }
 
 export function loadTranscriptResponses(transcriptPath: string): AssistantResponse[] {

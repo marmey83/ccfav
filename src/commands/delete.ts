@@ -10,6 +10,10 @@ interface DeleteOptions {
 
 export async function deleteCommand(id: string, options: DeleteOptions): Promise<void> {
   const numId = parseInt(id, 10);
+  if (isNaN(numId)) {
+    console.error(`Invalid ID: "${id}" — must be a number`);
+    process.exit(1);
+  }
   const db = createDb(getCcfavDbPath());
   const fav = getFavouriteById(db, numId);
 
