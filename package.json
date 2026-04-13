@@ -1,0 +1,32 @@
+{
+  "name": "ccfav",
+  "version": "0.1.0",
+  "description": "Bookmark and search your Claude Code responses",
+  "type": "module",
+  "bin": {
+    "ccfav": "./dist/cli.js",
+    "fav": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsup src/cli.ts --format esm --dts --out-dir dist",
+    "dev": "tsx src/cli.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": ["claude-code", "cli", "bookmarks", "favourites", "developer-tools"],
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "@inquirer/prompts": "^7.0.0",
+    "better-sqlite3": "^9.4.3",
+    "commander": "^12.0.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.8",
+    "@types/node": "^20.0.0",
+    "tsup": "^8.0.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.4.0"
+  }
+}
