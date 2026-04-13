@@ -1,6 +1,6 @@
 {
   "name": "ccfav",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Bookmark and search your Claude Code responses",
   "type": "module",
   "bin": {
@@ -13,10 +13,20 @@
     "test": "vitest run",
     "test:watch": "vitest"
   },
-  "files": ["dist/"],
-  "keywords": ["claude-code", "cli", "bookmarks", "favourites", "developer-tools"],
+  "files": [
+    "dist/"
+  ],
+  "keywords": [
+    "claude-code",
+    "cli",
+    "bookmarks",
+    "favourites",
+    "developer-tools"
+  ],
   "license": "MIT",
-  "engines": { "node": ">=18" },
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "@inquirer/prompts": "^7.0.0",
     "better-sqlite3": "^12.9.0",
