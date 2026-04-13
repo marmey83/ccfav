@@ -57,6 +57,8 @@ fav 2 --tag typescript --note "keep this"
 
 `ccfav` reads Claude Code's session transcripts from `~/.claude/projects/` — the same JSONL files Claude Code writes locally for every conversation. It finds the most recent session for your current project, extracts assistant responses, and saves the ones you pick to a local SQLite database. No server, no account, no cloud.
 
+Works seamlessly from git worktrees — the main project's transcripts are always used.
+
 ## Data
 
 | Path | Purpose |
