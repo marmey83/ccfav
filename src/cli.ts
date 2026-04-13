@@ -25,8 +25,10 @@ program
   .action(saveCommand);
 
 program
-  .command('pick')
-  .description('Interactively select a response to save')
+  .command('pick [number]')
+  .description('List recent responses; optionally save one by number')
+  .option('-t, --tag <tags...>', 'Add one or more tags')
+  .option('-n, --note <note>', 'Add a note')
   .action(pickCommand);
 
 program

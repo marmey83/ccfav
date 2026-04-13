@@ -3,10 +3,14 @@ import { getClaudeProjectsDir, getCcfavDbPath } from '../lib/config.js';
 import { findCurrentTranscript, loadTranscriptResponses } from '../lib/transcript.js';
 import { createDb, saveFavourite } from '../lib/db.js';
 import { makePreview, truncate, green, bold, dim } from '../lib/format.js';
-import { input } from '@inquirer/prompts';
 import { AssistantResponse } from '../types/index.js';
 
-export async function pickCommand(): Promise<void> {
+interface PickOptions {
+  tag?: string[];
+  note?: string;
+}
+
+export async function pickCommand(num: string | undefined, opts: PickOptions): Promise<void> {
   const cwd = process.cwd();
   const transcriptPath = findCurrentTranscript(cwd, getClaudeProjectsDir());
 
@@ -25,28 +29,24 @@ export async function pickCommand(): Promise<void> {
   // Show last 10, most recent first
   const recent = responses.slice(-10).reverse();
 
-  recent.forEach((r: AssistantResponse, i: number) => {
-    console.log(`  ${bold(String(i + 1).padStart(2, ' '))}. ${truncate(r.text.split('\n')[0] ?? '', 70)}`);
-  });
-  console.log('');
+  // No number given — print the list and hint
+  if (num === undefined) {
+    recent.forEach((r: AssistantResponse, i: number) => {
+      console.log(`  ${bold(String(i + 1).padStart(2, ' '))}. ${truncate(r.text.split('\n')[0] ?? '', 70)}`);
+    });
+    console.log('');
+    console.log(dim(`Run: fav pick <number>  (e.g. fav pick 3)`));
+    return;
+  }
 
-  const numInput = await input({ message: 'Enter number to save:' });
-  const num = parseInt(numInput.trim(), 10);
-
-  if (isNaN(num) || num < 1 || num > recent.length) {
+  const n = parseInt(num, 10);
+  if (isNaN(n) || n < 1 || n > recent.length) {
     console.error(`Invalid selection — enter a number between 1 and ${recent.length}`);
     process.exit(1);
   }
 
-  const chosen = recent[num - 1] as AssistantResponse;
-
-  const tagInput = await input({
-    message: 'Tags (comma-separated, or Enter to skip):',
-  });
-
-  const tags = tagInput.trim()
-    ? tagInput.split(',').map(t => t.trim()).filter(Boolean)
-    : [];
+  const chosen = recent[n - 1] as AssistantResponse;
+  const tags = opts.tag ?? [];
 
   const db = createDb(getCcfavDbPath());
   const id = saveFavourite(db, {
@@ -55,7 +55,7 @@ export async function pickCommand(): Promise<void> {
     project_path: cwd,
     transcript_file: chosen.transcriptPath,
     original_timestamp: chosen.timestamp,
-    notes: null,
+    notes: opts.note ?? null,
   }, tags);
 
   const tagStr = tags.length > 0 ? ` [${tags.join(', ')}]` : '';
