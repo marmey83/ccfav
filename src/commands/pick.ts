@@ -3,7 +3,7 @@ import { getClaudeProjectsDir, getCcfavDbPath } from '../lib/config.js';
 import { findCurrentTranscript, loadTranscriptResponses } from '../lib/transcript.js';
 import { createDb, saveFavourite } from '../lib/db.js';
 import { makePreview, truncate, green, bold, dim } from '../lib/format.js';
-import { select, input } from '@inquirer/prompts';
+import { input } from '@inquirer/prompts';
 import { AssistantResponse } from '../types/index.js';
 
 export async function pickCommand(): Promise<void> {
@@ -22,20 +22,23 @@ export async function pickCommand(): Promise<void> {
     process.exit(1);
   }
 
-  // Show last 10, most recent first (for display)
+  // Show last 10, most recent first
   const recent = responses.slice(-10).reverse();
 
-  const choices = recent.map((r: AssistantResponse, i: number) => ({
-    name: `${String(i + 1).padStart(2, ' ')}. ${truncate(r.text.split('\n')[0] ?? '', 70)}`,
-    value: r,
-    short: `#${i + 1}`,
-  }));
-
-  const chosen = await select<AssistantResponse>({
-    message: 'Select a response to save:',
-    choices,
-    pageSize: 10,
+  recent.forEach((r: AssistantResponse, i: number) => {
+    console.log(`  ${bold(String(i + 1).padStart(2, ' '))}. ${truncate(r.text.split('\n')[0] ?? '', 70)}`);
   });
+  console.log('');
+
+  const numInput = await input({ message: 'Enter number to save:' });
+  const num = parseInt(numInput.trim(), 10);
+
+  if (isNaN(num) || num < 1 || num > recent.length) {
+    console.error(`Invalid selection — enter a number between 1 and ${recent.length}`);
+    process.exit(1);
+  }
+
+  const chosen = recent[num - 1] as AssistantResponse;
 
   const tagInput = await input({
     message: 'Tags (comma-separated, or Enter to skip):',
