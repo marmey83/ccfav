@@ -61,4 +61,7 @@ export async function pickCommand(num: string | undefined, opts: PickOptions): P
   const tagStr = tags.length > 0 ? ` ${cyan(`[${tags.join(', ')}]`)}` : '';
   const projectName = cwd.split('/').pop() ?? cwd;
   console.log(`${green('★')} saved ${bold(`#${id}`)} ${dim(`(${projectName})`)}${tagStr}`);
+  console.log('');
+  console.log(dim(chosen.text.split('\n').slice(0, 5).join('\n')));
+  if (chosen.text.split('\n').length > 5) console.log(dim(`… (fav show ${id} for full content)`));
 }

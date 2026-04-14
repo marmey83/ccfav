@@ -50,4 +50,7 @@ export async function saveCommand(position: string, options: SaveOptions): Promi
   const projectName = cwd.split('/').pop() ?? cwd;
   const tagStr = tags.length > 0 ? ` ${cyan(`[${tags.join(', ')}]`)}` : '';
   console.log(`${green('★')} saved ${bold(`#${id}`)} ${dim(`(${projectName})`)}${tagStr}`);
+  console.log('');
+  console.log(dim(response.text.split('\n').slice(0, 5).join('\n')));
+  if (response.text.split('\n').length > 5) console.log(dim(`… (fav show ${id} for full content)`));
 }
