@@ -2,7 +2,7 @@
 import { getClaudeProjectsDir, getCcfavDbPath } from '../lib/config.js';
 import { findCurrentTranscript, loadTranscriptResponses } from '../lib/transcript.js';
 import { createDb, saveFavourite } from '../lib/db.js';
-import { makePreview, bold, green, dim } from '../lib/format.js';
+import { makePreview, bold, green, dim, cyan } from '../lib/format.js';
 import { SaveOptions } from '../types/index.js';
 
 export async function saveCommand(position: string, options: SaveOptions): Promise<void> {
@@ -48,6 +48,6 @@ export async function saveCommand(position: string, options: SaveOptions): Promi
   }, tags);
 
   const projectName = cwd.split('/').pop() ?? cwd;
-  const tagStr = tags.length > 0 ? ` [${tags.join(', ')}]` : '';
+  const tagStr = tags.length > 0 ? ` ${cyan(`[${tags.join(', ')}]`)}` : '';
   console.log(`${green('★')} saved ${bold(`#${id}`)} ${dim(`(${projectName})`)}${tagStr}`);
 }

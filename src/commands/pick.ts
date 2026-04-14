@@ -2,7 +2,7 @@
 import { getClaudeProjectsDir, getCcfavDbPath } from '../lib/config.js';
 import { findCurrentTranscript, loadTranscriptResponses } from '../lib/transcript.js';
 import { createDb, saveFavourite } from '../lib/db.js';
-import { makePreview, truncate, green, bold, dim } from '../lib/format.js';
+import { makePreview, truncate, green, bold, dim, cyan } from '../lib/format.js';
 import { AssistantResponse } from '../types/index.js';
 
 interface PickOptions {
@@ -58,7 +58,7 @@ export async function pickCommand(num: string | undefined, opts: PickOptions): P
     notes: opts.note ?? null,
   }, tags);
 
-  const tagStr = tags.length > 0 ? ` [${tags.join(', ')}]` : '';
+  const tagStr = tags.length > 0 ? ` ${cyan(`[${tags.join(', ')}]`)}` : '';
   const projectName = cwd.split('/').pop() ?? cwd;
   console.log(`${green('★')} saved ${bold(`#${id}`)} ${dim(`(${projectName})`)}${tagStr}`);
 }
